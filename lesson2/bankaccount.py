@@ -12,7 +12,39 @@
 
 
 class BankAccount:
-    pass
+    balance: int
+
+    def __init__(self, balance):
+        self._balance = balance
+        self._is_closed = False
+
+    @property
+    def balance(self):
+        if self._is_closed:
+            return 0
+        return self._balance
+
+    def deposit(self, amount):
+        if self._is_closed:
+            raise ValueError("Счет закрыт. Невозможно внести деньги.")
+        if amount <= 0:
+            raise ValueError("Сумма депозита должна быть положительной.")
+        self._balance += amount
+
+    def withdraw(self, amount):
+        if self._is_closed:
+            raise ValueError("Счет закрыт. Невозможно снять деньги.")
+        if amount <= 0:
+            raise ValueError("Сумма снятия должна быть положительной.")
+        if amount > self._balance:
+            raise ValueError("Недостаточно средств на счете.")
+        self._balance -= amount
+
+    def close(self):
+        if self._is_closed:
+            raise ValueError("Счет уже закрыт.")
+        self._is_closed = True
+        return self._balance
 
 
 # код для проверки 
